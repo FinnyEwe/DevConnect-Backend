@@ -1,0 +1,54 @@
+type Query {
+    postsByUser(userId: ID): [Post]!
+    postComments(postId: ID): [Comment]!
+    getUser(userId: ID): User!
+    getUsers: [User]!
+    getPosts: [Post]!
+}
+
+type CommentsByPost {
+    postId: ID!
+    comments: [Comment]!
+}
+
+
+type Mutation {
+    addUser(userId:String!, username: String!, bio: String): User!
+    addPost(postId: String!, content: String!, authorId: String!, createdAt: String!): Post!
+    addComment(commentId: String!, postId: String!, authorId: String!, text: String!, createdAt: String!): Comment!
+}
+
+
+type Comment {
+    commentId: ID!
+    post: Post!
+    author: User!
+    text: String!
+    createdAt: String!
+}
+
+type User {
+    userId: ID!
+    username: String!
+    bio: String!
+}
+
+type Likes {
+    likeId: ID!
+    userId: ID!
+    postId: ID!
+    createdAt: String!
+}
+
+type Post {
+    postId: ID!
+    content: String!
+    author: User!
+    createdAt: String!
+    comments: [Comment]
+
+}
+
+
+
+
