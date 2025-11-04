@@ -16,6 +16,7 @@ type Mutation {
     addUser(userId:String!, username: String!, bio: String): User!
     addPost(postId: String!, content: String!, authorId: String!, createdAt: String!): Post!
     addComment(commentId: String!, postId: String!, authorId: String!, text: String!, createdAt: String!): Comment!
+    addLike(likeId: String!, userId: String!, postId: String!, createdAt: String!): Like!
 }
 
 
@@ -33,10 +34,10 @@ type User {
     bio: String!
 }
 
-type Likes {
+type Like {
     likeId: ID!
-    userId: ID!
-    postId: ID!
+    author: User!
+    post: Post!
     createdAt: String!
 }
 
@@ -46,7 +47,7 @@ type Post {
     author: User!
     createdAt: String!
     comments: [Comment]
-
+    likes: [Like]
 }
 
 

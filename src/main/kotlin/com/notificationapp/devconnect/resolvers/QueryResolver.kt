@@ -1,6 +1,7 @@
 package com.notificationapp.devconnect.resolvers
 
 import com.notificationapp.devconnect.entities.Comment
+import com.notificationapp.devconnect.entities.Like
 import com.notificationapp.devconnect.entities.Post
 import com.notificationapp.devconnect.entities.User
 import com.notificationapp.devconnect.repositories.CommentRepository
@@ -48,6 +49,15 @@ class QueryController (private val userRepository: UserRepository, private val p
             val ids = posts.map{ it.postId }
             val comments = commentRepository.findByPostPostIdIn(ids)
             comments.groupBy { it.post }
+        }.subscribeOn(Schedulers.boundedElastic())
+    }
+
+    @BatchMapping(field = "like", typeName = "Post")
+    fun likes(posts: List<Post>): Mono<Map<Post, List<Like>>> {
+        return Mono.fromCallable {
+            val ids = posts.map{it.postId}
+            val likes = likeRepository.findByPostPostIdIn(ids)
+            likes.groupBy { it.post }
         }.subscribeOn(Schedulers.boundedElastic())
     }
 

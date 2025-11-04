@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface LikeRepository: JpaRepository<Like, String> {
-
+    fun findByPostPostIdIn(postId: List<String>): List<Like>
 }

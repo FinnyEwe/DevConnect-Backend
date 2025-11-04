@@ -1,6 +1,7 @@
 package com.notificationapp.devconnect.resolvers
 
 import com.notificationapp.devconnect.entities.Comment
+import com.notificationapp.devconnect.entities.Like
 import com.notificationapp.devconnect.entities.Post
 import com.notificationapp.devconnect.entities.User
 import com.notificationapp.devconnect.repositories.CommentRepository
@@ -47,5 +48,19 @@ class MutationResolver (private val userService: UserService, private val postRe
         val post = postRepository.findByPostId(postId)
         val newComment = Comment(commentId, post, user, text, createdAt)
         return commentRepository.save(newComment)
+    }
+
+    @MutationMapping
+    fun addLike(
+        @Argument likeId: String,
+        @Argument userId: String,
+        @Argument postId: String,
+        @Argument createdAt: String,
+    ): Like {
+        println(postRepository.findByPostId(postId))
+        val user = userService.findUser(userId)
+        val post = postRepository.findByPostId(postId)
+        val newLike = Like(likeId, user, post, createdAt)
+        return likeRepository.save(newLike)
     }
 }
